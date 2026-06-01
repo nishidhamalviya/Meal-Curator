@@ -1,0 +1,108 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String         @id @default(uuid())
+  clerkId        String         @unique
+  email          String         @unique
+  createdAt      DateTime       @default(now())
+  profile        Profile?
+  mealPlans      MealPlan[]
+  pantryScans    PantryScan[]
+  coachChats     CoachChat[]
+  orderAnalyses  OrderAnalysis[]
+}
+
+model Profile {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  age            Int
+  weight         Float    // in kg
+  height         Float    // in cm
+  gender         String   // MALE, FEMALE, OTHER
+  activityLevel  String   // SEDENTARY, LIGHTLY_ACTIVE, MODERATELY_ACTIVE, VERY_ACTIVE
+  fitnessGoal    String   // WEIGHT_LOSS, MUSCLE_GAIN, MAINTENANCE
+  dietPreference String   // VEGETARIAN, NON_VEGETARIAN, VEGAN, EGGETARIAN
+  dailyBudget    Float    // in INR
+  weeklyBudget   Float    // in INR
+  updatedAt      DateTime @updatedAt
+}
+
+model MealPlan {
+  id            String     @id @default(uuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date          DateTime   @default(now())
+  dayOfWeek     String     // MONDAY, TUESDAY...
+  targetCalories Float
+  targetProtein  Float
+  totalCost     Float
+  totalCalories Float
+  totalProtein  Float
+  totalCarbs    Float
+  totalFat      Float
+  meals         MealItem[]
+  createdAt     DateTime   @default(now())
+}
+
+model MealItem {
+  id          String   @id @default(uuid())
+  mealPlanId  String
+  mealPlan    MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+  type        String   // BREAKFAST, LUNCH, SNACK, DINNER
+  name        String
+  calories    Float
+  protein     Float
+  carbs       Float
+  fat         Float
+  cost        Float
+  items       String   // Comma-separated list of ingredients
+}
+
+model PantryScan {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  imageUrl    String
+  detected    String   // Comma-separated ingredients detected
+  suggestions String   // Recommended recipes JSON
+  createdAt   DateTime @default(now())
+}
+
+model CoachChat {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String   // USER, ASSISTANT
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model OrderAnalysis {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rawText        String
+  calories       Float
+  protein        Float
+  cost           Float
+  costEfficiency Float    // Protein per Rupee
+  healthScore    Float
+  alternatives   String   // JSON alternatives
+  createdAt      DateTime @default(now())
+}
+
+model KnowledgeDocument {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  category  String
+  embedding String   // Comma-separated vector representation
+}

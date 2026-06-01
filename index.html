@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meal Curator 🍱 | Elite Restaurant Meal Planner</title>
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Ambient Background Glowing Blobs -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="main-wrapper">
+    <!-- Header Hero -->
+    <header class="app-header">
+      <div class="badge-container">
+        <span class="premium-badge">✨ BENGALURU'S BEST KITCHENS</span>
+      </div>
+      <h1>🍱 Meal <span class="gradient-text">Curator</span></h1>
+      <p class="subtitle">Stop scrolling. Start eating. We'll engineer the perfect order from real Bangalore restaurant data!</p>
+    </header>
+
+    <main class="app-grid">
+      <!-- Preferences panel (Left) -->
+      <section class="panel glass-panel preference-section">
+        <div class="section-title">
+          <div class="title-icon">🎨</div>
+          <h2>Taste Studio</h2>
+        </div>
+        <p class="section-subtitle">Fine-tune your preferences to discover the perfect meal</p>
+
+        <!-- 1. Cuisine Grid Selector (Custom, no plain select!) -->
+        <div class="form-group">
+          <label class="group-label">🍛 Choose Cuisines</label>
+          <div class="cuisine-grid" id="cuisineGrid">
+            <div class="cuisine-card active" data-value="indian">
+              <span class="cuisine-emoji">🍛</span>
+              <span class="cuisine-name">North Indian</span>
+            </div>
+            <div class="cuisine-card" data-value="south-indian">
+              <span class="cuisine-emoji">🥞</span>
+              <span class="cuisine-name">South Indian</span>
+            </div>
+            <div class="cuisine-card" data-value="chinese">
+              <span class="cuisine-emoji">🥢</span>
+              <span class="cuisine-name">Pan-Asian</span>
+            </div>
+            <div class="cuisine-card" data-value="italian">
+              <span class="cuisine-emoji">🍕</span>
+              <span class="cuisine-name">Italian / Pizza</span>
+            </div>
+            <div class="cuisine-card" data-value="fast-food">
+              <span class="cuisine-emoji">🍔</span>
+              <span class="cuisine-name">Fast Food</span>
+            </div>
+            <div class="cuisine-card" data-value="cafes">
+              <span class="cuisine-emoji">☕</span>
+              <span class="cuisine-name">Cafe Bites</span>
+            </div>
+            <div class="cuisine-card" data-value="desserts">
+              <span class="cuisine-emoji">🍰</span>
+              <span class="cuisine-name">Sweet Tooth</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Diet Mode Selectors -->
+        <div class="form-group">
+          <label class="group-label">🥗 Diet Preference</label>
+          <div class="diet-selector">
+            <button class="diet-btn active" data-diet="veg">
+              <span class="indicator green"></span>
+              🥦 Vegetarian
+            </button>
+            <button class="diet-btn" data-diet="non-veg">
+              <span class="indicator red"></span>
+              🍗 Non-Vegetarian
+            </button>
+          </div>
+        </div>
+
+        <!-- Two Column Row: Budget Tier & Servings -->
+        <div class="form-row">
+          <!-- 3. Dynamic Servings Adjuster -->
+          <div class="form-group servings-group">
+            <label class="group-label">👥 Servings</label>
+            <div class="servings-counter">
+              <button class="counter-btn" id="minusBtn" aria-label="Decrease Servings">—</button>
+              <div class="counter-display">
+                <span id="servingsCount">1</span>
+                <span class="servings-label" id="servingsLabel">Person</span>
+              </div>
+              <button class="counter-btn" id="plusBtn" aria-label="Increase Servings">+</button>
+            </div>
+            <div class="servings-visual" id="servingsVisual">🍽️</div>
+          </div>
+
+          <!-- 4. Meal Type Selection -->
+          <div class="form-group meal-type-group">
+            <label class="group-label">🍽️ Meal Timing</label>
+            <select class="custom-select" id="mealType">
+              <option value="breakfast">🌅 Breakfast</option>
+              <option value="lunch" selected>☀️ Lunch</option>
+              <option value="dinner">🌙 Dinner</option>
+              <option value="snack">🕒 Quick Snack</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 5. Advanced Neon Budget Slider -->
+        <div class="form-group budget-group">
+          <div class="budget-header">
+            <label class="group-label">💰 Order Budget</label>
+            <span class="budget-badge" id="budgetDisplay">₹300</span>
+          </div>
+          <div class="slider-wrapper">
+            <input type="range" id="budget" min="100" max="2500" step="50" value="400" class="neon-slider" />
+            <div class="slider-ticks">
+              <span>₹100</span>
+              <span>₹900</span>
+              <span>₹1700</span>
+              <span>₹2500</span>
+            </div>
+          </div>
+          <div class="budget-vibe" id="budgetVibe">⚡ Casual Feast (Comfortable meal)</div>
+        </div>
+
+        <!-- Action Trigger Buttons -->
+        <div class="action-buttons">
+          <button id="curateBtn" class="btn btn-primary">
+            <span class="btn-shine"></span>
+            <span class="btn-text">✨ Curate My Perfect Order</span>
+          </button>
+          <button id="surpriseBtn" class="btn btn-secondary">
+            <span class="btn-text">🎲 Surprise Me!</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Results Display Lounge (Right) -->
+      <section class="panel glass-panel curation-display">
+        <!-- Default Empty State -->
+        <div class="display-state active" id="emptyState">
+          <div class="empty-illustration">👩‍🍳</div>
+          <h3>Chef's Waiting Table</h3>
+          <p>Adjust your preferences and click <strong>Curate My Perfect Order</strong>. Our engine will crawl real Bangalore menus to build your dream combo order!</p>
+        </div>
+
+        <!-- Dynamic Slot-Machine/Frying-Pan Cooking Loader -->
+        <div class="display-state" id="loadingState">
+          <div class="loader-container">
+            <!-- Floating Food Elements -->
+            <div class="flying-food">🍛</div>
+            <div class="flying-food">🍕</div>
+            <div class="flying-food">🥞</div>
+            <div class="flying-food">🍔</div>
+            
+            <div class="frying-pan-anim">
+              <div class="handle"></div>
+              <div class="pan">
+                <div class="pan-food"></div>
+              </div>
+              <div class="fire"></div>
+            </div>
+            
+            <div class="loading-reel">
+              <div class="reel-label">COOKING METADATA...</div>
+              <div class="reel-window">
+                <div class="reel-strip" id="reelStrip">
+                  <div>Meghana Foods</div>
+                  <div>Onesta</div>
+                  <div>Domino's Pizza</div>
+                  <div>Szechuan Dragon</div>
+                  <div>Aarush's Food Plaza</div>
+                  <div>McDonald's</div>
+                </div>
+              </div>
+            </div>
+            <p class="loader-text">Filtering restaurants, adjusting prices, and garnishing dishes...</p>
+          </div>
+        </div>
+
+        <!-- Premium Curated Result Card -->
+        <div class="display-state" id="resultState">
+          <div class="curated-container">
+            <!-- Restaurant Info Card -->
+            <div class="restaurant-card">
+              <div class="rest-details">
+                <div class="rest-tag">🏆 TOP RATED PICK</div>
+                <h3 id="resultRestName">Meghana Foods</h3>
+                <div class="rest-meta">
+                  <span class="rating-pill" id="resultRestRating">⭐ 4.4</span>
+                  <span class="votes-pill" id="resultRestVotes">4400+ votes</span>
+                  <span class="bullet">•</span>
+                  <span class="cost-for-two" id="resultCostForTwo">₹600 for two</span>
+                </div>
+                <p class="rest-type" id="resultRestType">North Indian, Mughlai, Biryani</p>
+              </div>
+            </div>
+
+            <!-- Curated Combo Menu -->
+            <div class="curated-menu">
+              <h4>📋 Engineered Combo Order</h4>
+              <div class="menu-divider"></div>
+              
+              <ul class="combo-items-list" id="resultItemsList">
+                <li>
+                  <span class="item-icon">⭐</span>
+                  <span class="item-name">Special Biryani Combo Plate</span>
+                </li>
+                <li>
+                  <span class="item-icon">🥤</span>
+                  <span class="item-name">Chilled Beverages</span>
+                </li>
+              </ul>
+              
+              <div class="order-math">
+                <div class="math-row">
+                  <span>Price per person:</span>
+                  <span class="bold" id="resultPerPersonPrice">₹250</span>
+                </div>
+                <div class="math-row">
+                  <span>Quantity (servings):</span>
+                  <span id="resultServingsMultiplier">x 1</span>
+                </div>
+                <div class="math-divider"></div>
+                <div class="math-row total-row">
+                  <span>Estimated Total Order:</span>
+                  <span class="gradient-text-accent font-large" id="resultTotalPrice">₹250</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Smart Budget Dessert Customizer Widget -->
+            <div class="dessert-customizer" id="dessertWidget" style="display: none;">
+              <div class="customizer-header">
+                <span class="customizer-icon">🍰</span>
+                <div>
+                  <h5>Room for Dessert?</h5>
+                  <p id="dessertRemainingText">You have ₹120 left in your budget!</p>
+                </div>
+              </div>
+              <div class="dessert-proposal" id="dessertProposal">
+                <span id="dessertProposalText">Add <strong>Belgian Waffle Combo</strong> (+₹100)</span>
+                <button class="add-dessert-btn" id="addDessertBtn">Add</button>
+              </div>
+            </div>
+
+            <!-- Delivery Buttons (Deep Search Queries) -->
+            <div class="delivery-options">
+              <a href="#" id="swiggyLink" target="_blank" class="delivery-btn swiggy">
+                <span class="deliv-icon">🛵</span>
+                <div>
+                  <span class="deliv-title">Order on Swiggy</span>
+                  <span class="deliv-subtitle">Open Swiggy Bangalore</span>
+                </div>
+              </a>
+              
+              <a href="#" id="zomatoLink" target="_blank" class="delivery-btn zomato">
+                <span class="deliv-icon">🍴</span>
+                <div>
+                  <span class="deliv-title">Order on Zomato</span>
+                  <span class="deliv-subtitle">Open Zomato Bangalore</span>
+                </div>
+              </a>
+            </div>
+            
+            <div class="disclaimer-notes">
+              *Prices and menu selections are parsed and generated dynamically based on actual Bangalore restaurant catalogs.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Made with ❤️ for Bangalore Foodies | Meal Curator © 2026</p>
+      <div class="footer-stats">
+        <span>📶 Dynamic CSV Engine Active</span>
+        <span>•</span>
+        <span>🍽️ 150+ Restaurants Analyzed</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript Application -->
+  <script src="script.js"></script>
+</body>
+</html>
